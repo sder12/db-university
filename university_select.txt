@@ -11,10 +11,38 @@ ___________________________________________________
     WHERE `courses`.`cfu` > 10
 
 ___________________________________________________
-3. Selezionare tutti gli studenti che hanno più di 30 anni
-   
+3. Selezionare tutti gli studenti che hanno più di 30 anni  
 
-___________________________________________________
+    SELECT * 
+    FROM `students` 
+    WHERE ........ >= 30
+
+            //1. calcolare la differenza tra la data di oggi e la data di nascita--> result: numero di gg
+                    CURRENT_DAY()    date_of_birth
+            DATEDIFF( "2022-12-02", "1992-08-31") ====> 11050       
+            ---->  DATEDIFF(CURRENT_DATE(),`date_of_birth`)                       
+
+
+            //2. trasformare il numero di gg in anni, mesi, giorni
+            FROM_DAYS(11050);   ====> 0030-04-03  === >30 anni 4 mesi 3 giorni              
+            ----> FROM_DAYS(DATEDIFF(CURRENT_DATE(),`date_of_birth`))
+
+            //3. estrapolare solo l'anno
+            YEAR("0030-04-03") ==> 30  |||| DATE_FORMAT("0030-04-03", "%Y");  ===> 0030
+
+            //4. controllare che l'anno sia >= 30
+            YEAR(FROM_DAYS(DATEDIFF(CURRENT_DATE(),`date_of_birth`))) >= 30
+
+    SELECT * 
+    FROM `students` 
+    WHERE YEAR(FROM_DAYS(DATEDIFF(CURRENT_DATE(),`date_of_birth`))) >= 30
+
+    ------------------------------------------------------------
+    --------creare sul posto la tabella age--------------------- 
+    SELECT *, DATE_FORMAT(FROM_DAYS(DATEDIFF(CURRENT_DATE(),`date_of_birth`)), '%Y') + 0 AS age
+    FROM `students`
+    WHERE YEAR(FROM_DAYS(DATEDIFF(CURRENT_DATE(),`date_of_birth`))) >= 30
+
 __________________________________________________
 4. Selezionare tutti i corsi del primo semestre del primo anno di un qualsiasi corso di
 laurea (286)
@@ -48,3 +76,7 @@ ___________________________________________________
     WHERE `teachers`.`phone` IS NULL
 
 ___________________________________________________
+
+
+
+
